@@ -38,8 +38,8 @@ int PlayerClass::calculate_class_hitpoints(int level)const{
         return stoi(hit_dice.substr(hit_dice.find('d')+1,hit_dice.size()));
     }
     else{
-        int hp_sum =0;
-        for (int i=0; i<level; i++){
+        int hp_sum =stoi(hit_dice.substr(hit_dice.find('d')+1,hit_dice.size()));
+        for (int i=0; i<level-1; i++){
             hp_sum+=roll(hit_dice);
         }
         return hp_sum;

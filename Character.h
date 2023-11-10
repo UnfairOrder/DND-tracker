@@ -15,9 +15,13 @@
 class Character{
 
     public:
-        Character(std::string _name, std::string _race, float _height, int _str, int _dex, int _con, int _wis, int _int, int level, PlayerClass Character_Class);
-        Character(std::string _name, std::string _race, float _height, bool randomStats = true);
+        Character(std::string _name, std::string _race, float _height, int _str, int _dex, int _con, int _wis, int _int, int level, PlayerClass _CharacterClass);
+        Character(std::string _name, std::string _race, float _height);
         Character();
+        //the big 3
+        Character(const Character & player);
+        Character& operator=(const Character&);
+        ~Character();
 
         
         std::string getName() const;
@@ -46,19 +50,21 @@ class Character{
         int getWis_mod()const;
         int getInt_mod()const;
 
-        std::string get_race()const; //If the race class is added then this will change some.
+        std::string get_race()const{return race;} //If the race class is added then this will change some.
         
-        float get_height()const;
+        float get_height()const{return height;};
 
-        int get_max_hp()const;
+
         int get_current_hp()const;
-        int get_level()const;
+        int get_level()const{return level;}
         int get_movespeed()const;
         int get_proficiency_bonus()const;
         int get_armor_class()const;
 
-        void setPlayerClass(PlayerClass*);
-        PlayerClass* getPlayerClass();
+        void setPlayerClass(PlayerClass c){character_class = c;}
+        PlayerClass getPlayerClass(){return character_class;}
+
+        int get_max_hp()const{return max_hp;}
 
         //TODO destructor in PlayerClass. I think i will need it sooner rather than later
 
@@ -87,7 +93,7 @@ class Character{
     // I don't think I need a destructor yet
     // Doing an internal pointer because I don't think that runtime inheritence is a thing, at least that we've learned yet, and this also opens the door for multiclassing.
     // This also provides access to class specific leveling mechanics and feature access. 
-    PlayerClass CharacterClass;
+    PlayerClass character_class;
 
 
 
@@ -114,7 +120,7 @@ class Character{
      */
     int calculate_max_hp()const;
     void set_max_hp(int hp);
-    int get_max_hp()const{return max_hp;}
+
 /*
 Implement these once the Item class is done. I think I'd like to use an array or some other data type for the
 inventory where I can keep track of the quantities of the items. The alternative is to create an ItemStack object

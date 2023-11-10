@@ -1,7 +1,7 @@
 #include "Character.h"
 
 //Race might be replaced with a pbr class
- Character::Character(std::string _name, std::string _race, float _height, int _str, int _dex, int _con, int _wis, int _int, int _level,PlayerClass Character_Class){
+ Character::Character(std::string _name, std::string _race, float _height, int _str, int _dex, int _con, int _wis, int _int, int _level,PlayerClass _CharacterClass){
      name = _name;
     race = _race; // This is a possible canidate for a inheritence.
     height = _height;
@@ -10,12 +10,12 @@
     setConstitution(_con);
     setWisdom(_wis);
     setIntelligence(_int);
-    int level = _level; //TODO set level function
+    level = _level; //TODO set level function
     //TODO figure out if I'm using the right style guides
-
-    set_max_hp(calculate_max_hp());
+    character_class = _CharacterClass;
+    max_hp=(calculate_max_hp());
 }
-Character::Character(std::string _name, std::string _race, float _height, bool randomStats = true){
+Character::Character(std::string _name, std::string _race, float _height){
     std::string name = _name;
     std::string race = _race;
     float height = _height;
@@ -36,6 +36,33 @@ Character::Character(){
     int intelligence = 10;    
     level = 1;
     
+}
+
+Character::Character(const Character& player){
+    name = player.getName();
+    race = player.get_race(); // This is a possible canidate for a inheritence.
+    height = player.get_height();
+    setStrength(player.getStrength());
+    setDexterity(player.getDexterity());
+    setConstitution(player.getConstitution());
+    setWisdom(player.getWisdom());
+    setIntelligence(player.getIntelligence());
+    int level = player.get_level(); //TODO set level function
+    //TODO figure out if I'm using the right style guides
+
+    set_max_hp(player.get_max_hp());
+}
+
+Character& Character::operator=(const Character& player){
+
+    if(this==&player)return *this;
+    // because there's no pointers, copy constructor should work
+    *this = Character(player);  //use copy constructor b/c no cleanup required here
+    return *this;
+}
+
+Character::~Character(){
+    //Nothing needed in here.
 }
 
 std::string Character::getName()const{
@@ -147,10 +174,10 @@ void verifyStat(int & stat){
 
 int Character::calculate_max_hp()const{
     if (level ==1){
-        return this->getCon_mod()+CharacterClass.calculate_class_hitpoints(level);
+        return (int)(this->getCon_mod())+character_class.calculate_class_hitpoints(level);
     }
     else{
-        return level*this->getCon_mod()+CharacterClass.calculate_class_hitpoints(level);
+        return level*(this->getCon_mod())+character_class.calculate_class_hitpoints(level);
     }
 }
 
