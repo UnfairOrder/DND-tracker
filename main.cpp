@@ -1,6 +1,7 @@
 #include "DiceRoller.h"
 #include "iostream"
 #include "Classes.h"
+#include "ItemList.hpp"
 
 using namespace std;
 int main(){

@@ -6,6 +6,7 @@
 class RangedWeapon : public IWeapon{
     public:
         RangedWeapon();
+        RangedWeapon(const RangedWeapon& w);
         RangedWeapon(
             std::string _name, 
             std::string _description,

@@ -6,6 +6,9 @@
 class MeleeWeapon : public IWeapon{
     public:
         MeleeWeapon();
+
+        MeleeWeapon(const MeleeWeapon& w);  //Copy Constructor
+
         MeleeWeapon(
             std::string _name, 
             std::string _description,

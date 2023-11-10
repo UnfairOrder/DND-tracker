@@ -4,6 +4,18 @@
     MeleeWeapon::MeleeWeapon(){
 
     }
+    /**
+     * @brief Copy Constructor
+     * 
+     * @param w
+     */
+    MeleeWeapon::MeleeWeapon(const MeleeWeapon& w){
+        name = w.get_name();
+        description = w.get_description();
+        weapon_type = w.get_weapon_type();
+        damage = w.get_damage();
+        weight = w.get_weight();
+    }
 
     MeleeWeapon::MeleeWeapon(
         std::string _name, 
@@ -25,4 +37,5 @@ std::ostream & operator<<(std::ostream &out, const MeleeWeapon&w){
     out<<w.get_description()<<std::endl;
     out<<"Damage: "<<w.get_damage()<<std::endl;
     out<<"Weapon Attributes: "<<w.get_weapon_type()<<std::endl;
+    return out;
 }        

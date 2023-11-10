@@ -4,6 +4,16 @@
     RangedWeapon::RangedWeapon(){
 
     }
+    
+    RangedWeapon::RangedWeapon(const RangedWeapon& w){
+        name = w.get_name();
+        description = w.get_description();
+        weapon_type = w.get_weapon_type();
+        damage = w.get_damage();
+        weight = w.get_weight();
+        rangeMin = w.get_rangeMin();
+        rangeMax = w.get_rangeMax();
+    }
 
     RangedWeapon::RangedWeapon(
         std::string _name, 
@@ -28,5 +38,5 @@ std::ostream & operator<<(std::ostream &out, const RangedWeapon&w){
     out<<w.get_description()<<std::endl;
     out<<"Damage: "<<w.get_damage()<<std::endl;
     out<<"Weapon Attributes: "<<w.get_weapon_type()<<", ("<<w.get_rangeMin()<<"/"<<w.get_rangeMax()<<")"<<std::endl;
-
+    return out;
 }
