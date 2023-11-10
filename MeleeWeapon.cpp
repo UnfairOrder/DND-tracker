@@ -20,4 +20,9 @@
         }
 
 
-        
+std::ostream & operator<<(std::ostream &out, const MeleeWeapon&w){
+    out<<w.get_name()<<":"<<std::endl;
+    out<<w.get_description()<<std::endl;
+    out<<"Damage: "<<w.get_damage()<<std::endl;
+    out<<"Weapon Attributes: "<<w.get_weapon_type()<<std::endl;
+}        

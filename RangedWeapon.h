@@ -16,13 +16,14 @@ class RangedWeapon : public IWeapon{
             int _rangeMax); //non default constructor.
 
 
-        double get_weight(){return weight;}
-        std::string get_name(){return name;}
-        std::string get_description(){return description;}
-        std::string get_weapon_type(){return weapon_type;}
-        std::string get_damage(){return damage;}
-        int get_rangeMin(){return rangeMin;}
-        int get_rangemax(){return rangeMax;}
+        double get_weight()const override{return weight;}
+        std::string get_name()const override{return name;}
+        std::string get_description()const override{return description;}
+        std::string get_weapon_type()const override{return weapon_type;}
+        std::string get_damage()const override{return damage;}
+        int get_rangeMin()const override{return rangeMin;}
+        int get_rangeMax()const override{return rangeMax;}
+
 
     private:
         double weight;
@@ -36,6 +37,8 @@ class RangedWeapon : public IWeapon{
 
 
 };
+
+std::ostream & operator<<(std::ostream &out, const RangedWeapon&w);
 
 
 

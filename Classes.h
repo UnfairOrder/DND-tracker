@@ -3,6 +3,9 @@
 
 #include "PlayerClass.h"
 
+
+extern std::vector<PlayerClass> ClassList;
+
 //PlayerClass definitions
 extern PlayerClass Bard;
 

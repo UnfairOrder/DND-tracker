@@ -22,3 +22,11 @@
         rangeMin = _rangeMin;
         rangeMax = _rangeMax;
         }
+
+std::ostream & operator<<(std::ostream &out, const RangedWeapon&w){
+    out<<w.get_name()<<":"<<std::endl;
+    out<<w.get_description()<<std::endl;
+    out<<"Damage: "<<w.get_damage()<<std::endl;
+    out<<"Weapon Attributes: "<<w.get_weapon_type()<<", ("<<w.get_rangeMin()<<"/"<<w.get_rangeMax()<<")"<<std::endl;
+
+}

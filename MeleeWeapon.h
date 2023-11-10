@@ -14,13 +14,13 @@ class MeleeWeapon : public IWeapon{
             double _weight); //non default constructor.
 
     
-        double get_weight()const{return weight;}
-        std::string get_name()const{return name;}
-        std::string get_description()const{return description;}
-        std::string get_weapon_type()const{return weapon_type;}
-        std::string get_damage()const{return damage;}
-        int get_rangeMin()const{return rangeMin;}
-        int get_rangeMax()const{return rangeMax;}
+        double get_weight()const override {return weight;}
+        std::string get_name()const override {return name;}
+        std::string get_description()const override{return description;}
+        std::string get_weapon_type()const override{return weapon_type;}
+        std::string get_damage()const override{return damage;}
+        int get_rangeMin()const override{return rangeMin;}
+        int get_rangeMax()const override{return rangeMax;}
 
     private:
         double weight;
@@ -33,6 +33,7 @@ class MeleeWeapon : public IWeapon{
     
 };
 
+std::ostream & operator<<(std::ostream &out, const MeleeWeapon&w);
 
 
 #endif
