@@ -1,9 +1,12 @@
 
 /**
- * @brief An Item class
- * I might do a parenting thing for items and the like. Armor would be a subclass of item and such.
+ * @brief An Item Interface
+ * literally just defines the get weight method.
  */
 class Item{
-    
+    public:
+        virtual double get_weight()=0;
+        virtual std::string get_name()=0;
+        virtual std::string get_description()=0;
 
 };
