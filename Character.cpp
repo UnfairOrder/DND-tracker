@@ -1,7 +1,7 @@
 #include "Character.h"
 
 //Race might be replaced with a pbr class
- Character::Character(std::string _name, std::string _race, float _height, int _str, int _dex, int _con, int _wis, int _int, int _level,PlayerClass *Character_Class){
+ Character::Character(std::string _name, std::string _race, float _height, int _str, int _dex, int _con, int _wis, int _int, int _level,PlayerClass Character_Class){
      name = _name;
     race = _race; // This is a possible canidate for a inheritence.
     height = _height;

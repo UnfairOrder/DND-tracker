@@ -1,6 +1,6 @@
 #include "DiceRoller.h"
 #include "iostream"
-#include "PlayerClass.h"
+#include "Classes.h"
 
 using namespace std;
 int main(){
@@ -9,7 +9,9 @@ int main(){
     rand();
 
 //welcome to the world dale!
-    cout<< Bard.get_hit_dice();
+    cout<<Bard.get_hit_dice();
+    cout<<endl;
+    cout<<Bard;
 
 
     return 0;

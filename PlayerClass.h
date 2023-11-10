@@ -5,10 +5,18 @@
 #include <string>
 #include "DiceRoller.h"
 #include <vector>
+#include <iostream>
 
 // not abstract at the moment
 class PlayerClass{
+
     public:
+        PlayerClass();
+
+        void operator=(const PlayerClass& pc);
+        
+        
+        
         /**
          * @brief Construct a new Player Class object
          * 
@@ -21,6 +29,7 @@ class PlayerClass{
          * @param _skill_proficiencies vector of skill profiencies.
          */
         PlayerClass(
+        std::string _name,
         std::string _description,
         std::string _hit_dice,
         std::vector<std::string> _weapon_proficiencies,
@@ -29,6 +38,7 @@ class PlayerClass{
         std::vector<std::string> _saving_throw_proficiencies,
         std::vector<std::string> _skill_proficiencies
         );
+        std::string get_name()const{return name;}
         std::string get_description()const {return description;}
         std::vector<std::string> get_weapon_proficiencies()const {return weapon_proficiencies;}
         std::vector<std::string> get_armor_proficiencies()const {return armor_proficiencies;}
@@ -55,6 +65,7 @@ class PlayerClass{
         int calculate_class_hitpoints(int level)const; 
 
     private:
+        std::string name;
         std::vector<std::string> weapon_proficiencies;
         std::vector<std::string> armor_proficiencies;
         std::vector<std::string> tool_proficiencies;
@@ -69,14 +80,8 @@ class PlayerClass{
 
 };
 
-PlayerClass Bard = PlayerClass(
-    "An entertainer by trade and an all around charismatic individual",
-    "1d8",
-    {"simple weapons"},
-    {"light armor"},
-    {"any 3"},
-    {"Dexterity","Charisma"},
-    {"any 3"}
-);
+std::ostream & operator<<(std::ostream &out, const PlayerClass&pc);
+
+
 
 #endif

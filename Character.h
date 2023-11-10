@@ -15,7 +15,7 @@
 class Character{
 
     public:
-        Character(std::string _name, std::string _race, float _height, int _str, int _dex, int _con, int _wis, int _int, int level, PlayerClass* Character_Class);
+        Character(std::string _name, std::string _race, float _height, int _str, int _dex, int _con, int _wis, int _int, int level, PlayerClass Character_Class);
         Character(std::string _name, std::string _race, float _height, bool randomStats = true);
         Character();
 
