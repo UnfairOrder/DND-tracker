@@ -24,6 +24,7 @@
     }
 
     void PlayerClass::operator=(const PlayerClass& pc){
+        name=pc.get_name();
         description=pc.get_description();
         hit_dice=pc.get_hit_dice();
         weapon_proficiencies=pc.get_weapon_proficiencies();
@@ -53,6 +54,8 @@ std::ostream & operator<<(std::ostream &out, const PlayerClass&pc){
     //Vectors should then be printed here with a for loop but I don't feel the need to do that yet.
     return out;
 }
+
+
 
 
 
