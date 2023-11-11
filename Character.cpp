@@ -13,7 +13,7 @@
     level = _level; //TODO set level function
     //TODO figure out if I'm using the right style guides
     character_class = _CharacterClass;
-    max_hp=(calculate_max_hp());
+    set_max_hp(calculate_max_hp());
 }
 Character::Character(std::string _name, std::string _race, float _height){
     std::string name = _name;
