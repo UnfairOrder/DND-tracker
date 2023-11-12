@@ -74,8 +74,6 @@ depend:
 .PHONY: all clean depend
 
 # DEPENDENCIES 
-main.o: main.cpp DiceRoller.h Classes.h PlayerClass.h ItemList.hpp \
- MeleeWeapon.h IWeapon.h Item.h RangedWeapon.h Character.h
 Character.o: Character.cpp Character.h PlayerClass.h DiceRoller.h
 PlayerClass.o: PlayerClass.cpp PlayerClass.h DiceRoller.h
 DiceRoller.o: DiceRoller.cpp DiceRoller.h

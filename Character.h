@@ -15,7 +15,7 @@
 class Character{
 
     public:
-        Character(std::string _name, std::string _race, float _height, int _str, int _dex, int _con, int _wis, int _int, int level, PlayerClass _CharacterClass);
+        Character(std::string _name, std::string _race, float _height, int _str, int _dex, int _con, int _wis, int _int, int _chr, int level, PlayerClass& _CharacterClass);
         Character(std::string _name, std::string _race, float _height);
         Character();
         //the big 3
@@ -44,11 +44,15 @@ class Character{
         int getIntelligence() const;
         void setIntelligence(int intelligence);
 
+        int getCharisma() const;
+        void setCharisma(int _cha);
+
         int getStr_mod()const;
         int getDex_mod()const;
         int getCon_mod()const;
         int getWis_mod()const;
         int getInt_mod()const;
+        int getCha_mod()const;
 
         std::string get_race()const{return race;} //If the race class is added then this will change some.
         
@@ -83,8 +87,8 @@ class Character{
 
 
     std::string name;
-    int strength, dexterity, constitution, wisdom, intelligence;
-    int strength_mod, dex_mod, con_mod, wis_mod, int_mod;
+    int strength, dexterity, constitution, wisdom, intelligence, charisma;
+    int strength_mod, dex_mod, con_mod, wis_mod, int_mod, cha_mod;
     std::string race;   //This could be made an object, time permitting
     float height;   //in Inches
 
