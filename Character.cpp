@@ -1,7 +1,7 @@
 #include "Character.h"
 
 //Race might be replaced with a pbr class
- Character::Character(std::string _name, std::string _race, float _height, int _str, int _dex, int _con, int _wis, int _int, int _level,PlayerClass _CharacterClass){
+ Character::Character(std::string _name, std::string _race, float _height, int _str, int _dex, int _con, int _wis, int _int, int _cha, int _level,PlayerClass& _CharacterClass){
      name = _name;
     race = _race; // This is a possible canidate for a inheritence.
     height = _height;
@@ -10,6 +10,7 @@
     setConstitution(_con);
     setWisdom(_wis);
     setIntelligence(_int);
+    setCharisma(_cha);
     level = _level; //TODO set level function
     //TODO figure out if I'm using the right style guides
     character_class = _CharacterClass;
@@ -47,6 +48,7 @@ Character::Character(const Character& player){
     setConstitution(player.getConstitution());
     setWisdom(player.getWisdom());
     setIntelligence(player.getIntelligence());
+    setCharisma(player.getCharisma());
     int level = player.get_level(); //TODO set level function
     //TODO figure out if I'm using the right style guides
 
@@ -136,6 +138,24 @@ void Character::setIntelligence(int _int){
     verifyStat(_int);
     intelligence = _int;
 }
+int Character::getInt_mod()const{
+    return (intelligence-10)/2;
+}
+
+//Charisma getters and setters
+
+int Character::getCharisma()const{
+    return charisma;
+}
+
+void Character::setCharisma(int _cha){
+    verifyStat(_cha);
+    charisma = _cha;
+}
+
+int Character::getCha_mod()const{
+    return(charisma-10)/2;
+}
 
 
 
@@ -145,7 +165,7 @@ std::vector<int> generate_stats(){
     
     std::vector<int> stats;
 
-    for (int i=0; i<5;i++){ //for five stats
+    for (int i=0; i<6;i++){ //for five stats
         int stat_total = 0;
         int lowest_roll = 7;
 
@@ -160,7 +180,7 @@ std::vector<int> generate_stats(){
 
         stats.push_back(stat_total);
     }
-
+    return stats;
 }
 
 void verifyStat(int & stat){
