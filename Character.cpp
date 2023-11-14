@@ -55,7 +55,7 @@ Character::Character(const Character& player){
     setWisdom(player.getWisdom());
     setIntelligence(player.getIntelligence());
     setCharisma(player.getCharisma());
-    int level = player.get_level(); //TODO set level function
+    set_level( player.get_level() ); 
     //TODO figure out if I'm using the right style guides
 
     set_max_hp(player.get_max_hp());
@@ -161,6 +161,19 @@ void Character::setCharisma(int _cha){
 
 int Character::getCha_mod()const{
     return(charisma-10)/2;
+}
+
+
+void Character::set_level(int new_level){
+    if (new_level<1){
+        level = 1;
+    }
+    else if (new_level>20){
+        level=20;
+    }
+    else{
+        level = new_level;
+    }
 }
 
 
