@@ -230,3 +230,19 @@ void Character::set_max_hp(int hp){
 }
 
 //TODO implement setPlayerClass so that hitpoints are updated whenplayerclass is set.
+
+//Save Character to file
+    //if file with character's filename is found, open that.
+        //clear out previous contents, write new contents in.
+    //if no file is found, create a new file
+        //write character information to file
+
+//information to write to file
+    //character constructor information
+        // name, race, stats, level
+            //new line for each, so type conversion is easy
+    // other information
+        // selected abilities - maybe integer reference to full ability list??
+        // money - ints, easy enough
+        // inventory - same as selected abilities
+        // proficiencies, thought it might be more space efficient to store each individual skill as an int than to create a string that loads each time.
