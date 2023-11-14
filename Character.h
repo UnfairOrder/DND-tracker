@@ -61,6 +61,7 @@ class Character{
 
         int get_current_hp()const;
         int get_level()const{return level;}
+        void set_level(int level);
         int get_movespeed()const;
         int get_proficiency_bonus()const;
         int get_armor_class()const;
@@ -69,6 +70,7 @@ class Character{
         PlayerClass getPlayerClass(){return character_class;}
 
         int get_max_hp()const{return max_hp;}
+
 
         //TODO destructor in PlayerClass. I think i will need it sooner rather than later
 
