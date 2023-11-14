@@ -44,7 +44,7 @@ bool validateSelection(string prompt){
 
 
 //temporary void return while testing build
-void create_character(ostream& out){
+Character* create_character(ostream& out){
     //Choose a Class
     out<<"Please choose a class:"<<endl<<endl;
     PlayerClass class_choice;
@@ -274,12 +274,7 @@ void create_character(ostream& out){
     //modified_stats order: "Strength","Dexterity","Constitution","Wisdom","Intelligence","Charisma"
 
     Character* character= new Character(character_name,race,height,modified_stats,1,class_choice);
-
-
-
-
-    
-
+    return character;
 
 }
 
@@ -334,17 +329,34 @@ int main(){
         case 2:
             cout<<"Create new Character"<<endl;
             //Character creator
-            create_character(cout);
+            character_list.push_back(create_character(cout));
             break;
     }
             
     //Select Characters
     //Game/Use
         //Combat
+            //Ability uses
+            //movement??
+            //end combat (goes to normal view)
         //Normal View
+            //skill checks
+            //rests
 
 
+            
 
 
+    //      EXIT GRACEFULLY
+    
+    //cleanup character pointers and character list
+    for (size_t i=0; i<character_list.size(); i++){
+        delete character_list[i];
+        character_list[i] = nullptr;
+    }
+    character_list.clear();
+
+
+    
     return 0;
 }
