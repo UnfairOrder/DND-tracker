@@ -18,6 +18,30 @@ bool isNumeric(string str){
     }
 }
 
+/**
+ * @brief validates the user input either a Y, y, N, or n, and returns if their answer was yes (true) or no (false)
+ * 
+ * @param prompt 
+ * @return true 
+ * @return false 
+ */
+bool validateSelection(string prompt){
+    char choice;
+    cout<< prompt+" (Y/N) ";
+        cin>>choice;
+    while (!(choice =='Y' | choice == 'N' | choice=='y' | choice=='n')){
+        choice = 'a';
+        cout<<"(Y/N) ";
+        cin>>choice;
+    }
+    if(choice=='Y'|choice=='y'){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 
 //temporary void return while testing build
 void create_character(ostream& out){
@@ -187,16 +211,72 @@ void create_character(ostream& out){
         }
         if(stat_choice=='Y'|stat_choice=='y'){
             stats_selected=true;
+        //add stat indicators to character string
+            character_string = character_string+"Stats: "+'\n';
+            for(size_t i=0; i<6; i++){
+                if (stat_selection_indicators[i].length()<2){
+                    character_string=character_string+string(4,' ')+stat_selection_indicators[i];
+                }else{
+                    character_string=character_string+string(3,' ')+stat_selection_indicators[i];
+            }
+        }
+        character_string = character_string+'\n'+stat_string;
         }else{
             system("cls");
             out<<character_string<<endl;
         }
     }while(!stats_selected);
 
+
     //prints the modified stat block in order
     // for (size_t i=0; i<6; i++){
     //     out<<modified_stats[i]<<" ";
     // }    
+
+    //          CHARACTER NAME
+    // new menu (I might put this bit into a method... I am repeating myself a lot, but it's also only 2 lines of code and a method would need to pass the string anyways.)
+    // perhaps put a character limit on the character name.
+    bool name_selected = false;
+    string character_name;
+    while(!name_selected){
+        system("cls");
+        out<<character_string<<endl;
+        out<<endl;
+        out<<"Please enter your Character's name: ";
+        cin>>character_name;
+        out<<endl;
+        name_selected = validateSelection("Do you confirm your character's name?");
+    }
+    character_string=character_string+'\n'+"Name: "+character_name;
+
+    //         PROFICIENCY SELECTION
+    //given that I haven't implemented proficiencies yet, this one can wait.
+
+    //         STARTING INVENTORY
+    // Again, given that I don't have an inventory system working, this one can also wait
+
+    //      CHARACTER HEIGHT
+    bool height_selected = false;
+    float height = 68;
+    while(!height_selected){
+        system("cls");
+        cout<<character_string<<endl;
+        cout<<"Please enter your Character's height in total inches: ";
+        cin>>height;
+        height_selected = validateSelection("Do you confirm your character's height ?");
+    }
+
+    //Final Character Creation
+    system("cls");
+    cout<<character_string<<endl<<endl;
+    cout<<"Please welcome "<<character_name<<" to the world!";
+
+    //modified_stats order: "Strength","Dexterity","Constitution","Wisdom","Intelligence","Charisma"
+
+    Character* character= new Character(character_name,race,height,modified_stats,1,class_choice);
+
+
+
 
     
 
