@@ -16,14 +16,20 @@
     character_class = _CharacterClass;
     set_max_hp(calculate_max_hp());
 }
-Character::Character(std::string _name, std::string _race, float _height){
-    std::string name = _name;
-    std::string race = _race;
-    float height = _height;
-
-    //TODO random stats
-    //TODO set stats
-    level=1;
+Character::Character(std::string _name, std::string _race, float _height, std::vector<int> stat_vector, int level, PlayerClass& _CharacterClass){
+    name = _name;
+    race = _race; // This is a possible canidate for a inheritence.
+    height = _height;
+    setStrength(stat_vector[0]);
+    setDexterity(stat_vector[1]);
+    setConstitution(stat_vector[2]);
+    setWisdom(stat_vector[3]);
+    setIntelligence(stat_vector[4]);
+    setCharisma(stat_vector[5]);
+    level = level; //TODO set level function
+    //TODO figure out if I'm using the right style guides
+    character_class = _CharacterClass;
+    set_max_hp(calculate_max_hp());
 }
 Character::Character(){
     //Initializes the Character as 'an average joe'

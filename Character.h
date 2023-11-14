@@ -16,7 +16,7 @@ class Character{
 
     public:
         Character(std::string _name, std::string _race, float _height, int _str, int _dex, int _con, int _wis, int _int, int _chr, int level, PlayerClass& _CharacterClass);
-        Character(std::string _name, std::string _race, float _height);
+        Character(std::string _name, std::string _race, float _height, std::vector<int> stat_vector,int level, PlayerClass& _CharacterClass);
         Character();
         //the big 3
         Character(const Character & player);
