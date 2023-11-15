@@ -2,7 +2,7 @@
 
 //Race might be replaced with a pbr class
  Character::Character(std::string _name, std::string _race, float _height, int _str, int _dex, int _con, int _wis, int _int, int _cha, int _level,PlayerClass& _CharacterClass){
-     name = _name;
+    name = _name;
     race = _race; // This is a possible canidate for a inheritence.
     height = _height;
     setStrength(_str);
@@ -15,6 +15,39 @@
     //TODO figure out if I'm using the right style guides
     character_class = _CharacterClass;
     set_max_hp(calculate_max_hp());
+
+    //      CALCULATE PROFICIENCY BONUS
+    set_prof_bonus(proficiency_bonus());
+
+    //      POPULATE SKILL LIST
+    skill_list["Athletics"] = getStr_mod();
+    skill_list["Acrobatics"] = getDex_mod();
+    skill_list["Sleight of Hand"] = getDex_mod();
+    skill_list["Stealth"] = getDex_mod();
+    skill_list["Arcana"] = getInt_mod();
+    skill_list["History"] = getInt_mod();
+    skill_list["Investigation"] = getInt_mod();
+    skill_list["Nature"] = getInt_mod();
+    skill_list["Religion"] = getInt_mod();
+    skill_list["Animal Handling"] = getWis_mod();
+    skill_list["Insight"] = getWis_mod();
+    skill_list["Medicine"] = getWis_mod();
+    skill_list["Perception"] = getWis_mod();
+    skill_list["Survival"] = getWis_mod();
+    skill_list["Deception"] = getCha_mod();
+    skill_list["Intimidation"] = getCha_mod();
+    skill_list["Performance"] = getCha_mod();
+    skill_list["Persuasion"] = getCha_mod(); 
+
+    //     SKILL PROFICIENCIES
+    // This might be good to make into a function, so that on level up this can be done sepratley
+    for (size_t i =0; i<skill_prof.size();i++){
+        std::string key = skill_prof[i];
+        if (skill_list.count(key)){
+            skill_list[key] = skill_list[key] + prof_bonus;
+        }
+    }
+
 }
 Character::Character(std::string _name, std::string _race, float _height, std::vector<int> stat_vector, int level, PlayerClass& _CharacterClass){
     name = _name;
@@ -174,6 +207,13 @@ void Character::set_level(int new_level){
     else{
         level = new_level;
     }
+}
+
+void Character::set_prof_bonus(int bonus){
+    if (bonus<0){
+        bonus=0;
+    }
+    prof_bonus=bonus;
 }
 
 

@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <ctime>
 #include "PlayerClass.h"
+#include <cmath>
+#include <map>
 
 /**
  * @brief The Character class, contains all the information and variables that would be needed for a dnd character.
@@ -63,7 +65,7 @@ class Character{
         int get_level()const{return level;}
         void set_level(int level);
         int get_movespeed()const;
-        int get_proficiency_bonus()const;
+        int get_proficiency_bonus()const{return prof_bonus;}
         int get_armor_class()const;
 
         void setPlayerClass(PlayerClass c){character_class = c;}
@@ -72,12 +74,23 @@ class Character{
         int get_max_hp()const{return max_hp;}
 
 
-        //TODO destructor in PlayerClass. I think i will need it sooner rather than later
+        //      PROFICIENCIES
 
+        //Using a map for this. We haven't learned it in class yet, but it seems to work like a python dict, so that sounds good
 
+        std::map<std::string, int> skill_list;
+
+        int proficiency_bonus(){return round(1.5+0.25*level);}
+        void set_prof_bonus(int bonus);
 
     private:
-
+    /**
+     * @brief calculates the character's proficiency bonus based off their level
+     * 
+     * @return int 
+     */
+   
+    int prof_bonus;
 
 
     /**
@@ -116,7 +129,6 @@ class Character{
     int current_hp;
     int level;
     int move_speed;
-    int proficiency_bonus;
     int armor_class;
 
     /**
@@ -151,6 +163,8 @@ void verifyStat(int & stat);
  * @return std::vector<int> [str, dex, con, wis, int]
  */
 std::vector<int> generate_stats();
+
+
 
 
 #endif
