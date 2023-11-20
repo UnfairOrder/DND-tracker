@@ -49,7 +49,7 @@
     }
 
 }
-Character::Character(std::string _name, std::string _race, float _height, std::vector<int> stat_vector, int level, PlayerClass& _CharacterClass){
+Character::Character(std::string _name, std::string _race, float _height, std::vector<int> stat_vector, int _level, PlayerClass& _CharacterClass){
     name = _name;
     race = _race; // This is a possible canidate for a inheritence.
     height = _height;
@@ -59,10 +59,39 @@ Character::Character(std::string _name, std::string _race, float _height, std::v
     setWisdom(stat_vector[3]);
     setIntelligence(stat_vector[4]);
     setCharisma(stat_vector[5]);
-    level = level; //TODO set level function
+    level = _level; //TODO set level function
     //TODO figure out if I'm using the right style guides
+
     character_class = _CharacterClass;
+
+
     set_max_hp(calculate_max_hp());
+
+
+        //      CALCULATE PROFICIENCY BONUS
+
+    set_prof_bonus(proficiency_bonus());
+
+    //      POPULATE SKILL LIST
+    skill_list["Athletics"] = getStr_mod();
+    skill_list["Acrobatics"] = getDex_mod();
+    skill_list["Sleight of Hand"] = getDex_mod();
+    skill_list["Stealth"] = getDex_mod();
+    skill_list["Arcana"] = getInt_mod();
+    skill_list["History"] = getInt_mod();
+    skill_list["Investigation"] = getInt_mod();
+    skill_list["Nature"] = getInt_mod();
+    skill_list["Religion"] = getInt_mod();
+    skill_list["Animal Handling"] = getWis_mod();
+    skill_list["Insight"] = getWis_mod();
+    skill_list["Medicine"] = getWis_mod();
+    skill_list["Perception"] = getWis_mod();
+    skill_list["Survival"] = getWis_mod();
+    skill_list["Deception"] = getCha_mod();
+    skill_list["Intimidation"] = getCha_mod();
+    skill_list["Performance"] = getCha_mod();
+    skill_list["Persuasion"] = getCha_mod(); 
+
 }
 Character::Character(){
     //Initializes the Character as 'an average joe'
@@ -253,6 +282,7 @@ void verifyStat(int & stat){
 
 int Character::calculate_max_hp()const{
     if (level ==1){
+
         return (int)(this->getCon_mod())+character_class.calculate_class_hitpoints(level);
     }
     else{
@@ -267,6 +297,33 @@ void Character::set_max_hp(int hp){
     else{
         max_hp=hp;
     }
+}
+
+std::string Character::save(){
+    std::ofstream saveFile;
+    saveFile.open(this->name+".txt");
+    if(!saveFile.is_open()){
+        std::cerr<<"Failed to open or create savefile";
+        return "";
+    }
+    //      WRITE DATA TO FILE
+
+    saveFile<<this->name<<'\n';
+    saveFile<<this->race<<'\n';
+    saveFile<<this->height<<'\n';
+    saveFile<<this->strength<<'\n';
+    saveFile<<this->dexterity<<'\n';
+    saveFile<<this->constitution<<'\n';
+    saveFile<<this->wisdom<<'\n';
+    saveFile<<this->intelligence<<'\n';
+    saveFile<<this->charisma<<'\n';
+    saveFile<<this->level<<'\n';
+    saveFile<<this->character_class.get_name()<<'\n';   //this will need to be populated in load with an if statement
+
+    saveFile.close();
+
+    return this->name;
+
 }
 
 //TODO implement setPlayerClass so that hitpoints are updated whenplayerclass is set.

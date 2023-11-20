@@ -8,6 +8,7 @@
 #include "PlayerClass.h"
 #include <cmath>
 #include <map>
+#include <fstream>
 
 /**
  * @brief The Character class, contains all the information and variables that would be needed for a dnd character.
@@ -83,6 +84,13 @@ class Character{
         int proficiency_bonus(){return round(1.5+0.25*level);}
         void set_prof_bonus(int bonus);
 
+    /**
+     * @brief saves the character to a file with named : CharacterName.txt
+     * 
+     * @return std::string the name of the file
+     */
+        std::string save();
+
     private:
     /**
      * @brief calculates the character's proficiency bonus based off their level
@@ -149,6 +157,7 @@ So I'd like to use a different data structure. Maybe two parallel vectors?
     // Item equipped_weapon;
     // Item equipped_Armor;
     // std::vector<Item>; 
+
 };
 
 /**

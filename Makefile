@@ -6,7 +6,7 @@ SRC_FILES = main.cpp Character.cpp PlayerClass.cpp DiceRoller.cpp Classes.cpp Me
 # NO EDITS NEEDED BELOW THIS LINE
 
 CXX = g++
-CXXFLAGS = -Wextra -Werror -pedantic-errors
+CXXFLAGS = -Wextra -Werror -pedantic-errors $(CXXFLAGS_DEBUG)
 CXXFLAGS_DEBUG = -g
 CXXVERSION = -std=c++17
 
@@ -52,7 +52,8 @@ else
 	endif
 endif
 
-LIBS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
+LIBS = 
+#-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
 
 all: $(TARGET)
 

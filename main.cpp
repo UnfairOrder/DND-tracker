@@ -5,8 +5,12 @@
 #include "Character.h"
 #include <stdlib.h>
 #include <conio.h>
+#include <iomanip>
+
 
 using namespace std;
+const string SAVED_CHARACTERS_FILE = "saved_characters.txt";
+
 
 
 bool isNumeric(string str){
@@ -273,10 +277,109 @@ Character* create_character(ostream& out){
 
     //modified_stats order: "Strength","Dexterity","Constitution","Wisdom","Intelligence","Charisma"
 
+
+//failing to create character object.
     Character* character= new Character(character_name,race,height,modified_stats,1,class_choice);
+    // int breakout;
+    // cin>>breakout;
+    cout<<"Character created";
     return character;
 
 }
+
+/**
+ * @brief 
+ * 
+ */
+void load_Characters(vector<Character*> &charList){
+    //initialize variables
+    vector<string> Character_selection_list;
+
+
+    ifstream savedCharacters(SAVED_CHARACTERS_FILE);
+    if(!savedCharacters){
+        cout<<"Failed to open save state file. You might not have created any Characters yet!";
+        return;
+    }
+    //READ DATA AND POPULATE CHARACTER NAME LIST
+        //Each line individually will be the characters' name
+        //might want to add more validation to that in the future. like an id number as well so that multiple characters
+        //can have the same name.
+    string Character_name;
+    
+    while(!savedCharacters.eof()){
+        savedCharacters>>Character_name;
+        cout<<Character_name<<endl;
+        Character_selection_list.push_back(Character_name);
+        Character_name = "";
+    }
+
+    //CLOSE FILE
+    savedCharacters.close();
+
+    //      PRESENT CHARACTER OPTIONS TO USER
+    const int selection_array_size = Character_selection_list.size();
+    vector<char> selection_array(selection_array_size,' ');
+
+    size_t cursor_index=0;
+    char cursor = '>';
+    bool selected = false;
+    string input;
+
+
+
+
+    while(!selected){
+        cout<<"Please select which Characters you would like to load in:"<<endl;
+
+        //rewrite this every time an input is detected
+            for(size_t i = 0; i<Character_selection_list.size(); i++){
+                char drawCursor = ' ';
+                if(cursor_index==i){drawCursor=cursor;}
+                cout<<setw(5)<<drawCursor<<setw(2)<<selection_array[i]<<" "<<Character_selection_list[i]<<endl;
+            }
+            //draw arrow in front of a character's name
+            cin>>input;
+            if (input=="done"){
+                selected = true;
+            }
+
+            //open file containing list of character save files
+            //read list of character names and populate
+            //Present user with options for selecting which characters to load
+        //input data for Character into character constructor method
+        //Add newly created characters to charList as pointers
+    }
+
+
+}
+
+/**
+ * @brief calls save item on each character, and saves the name of the character's save file to another file.
+ * 
+ * @param charList 
+ */
+void save_Characters(vector<Character*> &charList){
+    ofstream saved_characters;
+    saved_characters.open(SAVED_CHARACTERS_FILE,std::ios::app);
+    if(!saved_characters){
+        cerr<<"failed to open saved characters file";
+        return;
+    }
+
+        string character_name;
+    for(size_t i=0; i<charList.size(); i++){
+        character_name = charList[i]->save();
+        saved_characters<<character_name<<'\n';
+    }
+
+    saved_characters.close();
+}
+
+
+
+
+
 
 
 
@@ -295,42 +398,56 @@ int main(){
 
     //Intialize Character list
     vector<Character*> character_list;
+    bool running = true;
 
     //Main Menu
-    int menu_options[]= {1,2};
-    int menu_size = 2;
+    int menu_options[]= {1,2,3};
+    int menu_size = 3;
 
-    system("cls");  //clear console
+    while(running){
+        system("cls");  //clear console
 
-    cout<<"DnD Tracker:indev"<<endl<<endl<<endl;
-    cout<<"Main Menu:"<<endl<<endl;
-    cout<<"Load Characters: (not working yet)"<<menu_options[0]<<endl;
-    cout<<"Create new Character: "<<menu_options[1]<<endl;
-    bool valid=false;
-    int option;
-    cin>>option;
-    while(!valid){
-        for (int i=0; i<menu_size; i++){
-            if (option == menu_options[i]){
-                valid=true;
-                break;
+        cout<<"DnD Tracker:indev"<<endl<<endl<<endl;
+        cout<<"Main Menu:"<<endl<<endl;
+        cout<<"Load Characters: (not working yet)"<<menu_options[0]<<endl;
+        cout<<"Create new Character: "<<menu_options[1]<<endl;
+        cout<<"Quit: "<<menu_options[2]<<endl;
+        bool valid=false;
+
+        int option;
+        cin>>option;
+        
+            while(!valid){
+                for (int i=0; i<menu_size; i++){
+                    if (option == menu_options[i]){
+                        valid=true;
+                        break;
+                    }
+                }
+                if (!valid){
+                    cout<<"invalid option"<<endl;
+                    cin>>option;
+                }
             }
-        }
-        if (!valid){
-            cout<<"invalid option"<<endl;
-            cin>>option;
-        }
-    }
-    system("cls");  //clear console
-    switch(option){
-        case 1:
-            cout<<"Load Characters"<<endl;
-            break;
-        case 2:
-            cout<<"Create new Character"<<endl;
-            //Character creator
-            character_list.push_back(create_character(cout));
-            break;
+            system("cls");  //clear console
+            switch(option){
+                case 1:
+                    cout<<"Load Characters"<<endl;
+                    load_Characters(character_list);
+                    break;
+                case 2:
+                    cout<<"Create new Character"<<endl;
+                    //Character creator
+                    character_list.push_back(create_character(cout));
+                    cout<<"Saving Character to file"<<endl;
+
+                    break;
+                case 3:
+                    running = false;
+                    break;
+            }
+            option = 0;
+            valid=false;
     }
             
     //Select Characters
@@ -348,12 +465,16 @@ int main(){
 
 
     //      EXIT GRACEFULLY
+
+    //save Characters
+    save_Characters(character_list);
     
     //cleanup character pointers and character list
     for (size_t i=0; i<character_list.size(); i++){
         delete character_list[i];
         character_list[i] = nullptr;
     }
+
     character_list.clear();
 
 
