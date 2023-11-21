@@ -325,6 +325,51 @@ std::string Character::save(){
     return this->name;
 
 }
+Character* load_Character(std::ifstream& fin){
+    std::string name;
+    fin>>name;
+
+    std::string race;
+    fin >> race;
+
+    float height;
+    fin>>height;
+
+    int strength;
+    fin >>strength;
+
+    int dexterity;
+    fin >> dexterity;
+
+    int constitution;
+    fin>>constitution;
+
+    int wisdom;
+    fin>>wisdom;
+
+    int intelligence;
+    fin>>intelligence;
+
+    int charisma;
+    fin>>charisma;
+
+    int level;
+    fin>>level;
+
+    PlayerClass PC_char_class;
+    std::string character_class;
+    fin>>character_class;
+
+    for (size_t i=0; i<ClassList.size();i++){
+        if(ClassList[i].get_name()==character_class){
+            PC_char_class = ClassList[i];
+        }
+    }
+
+    Character* character = new Character(name, race, height, strength, dexterity, constitution, wisdom, intelligence, charisma, level, PC_char_class);
+    return character;
+
+}
 
 //TODO implement setPlayerClass so that hitpoints are updated whenplayerclass is set.
 

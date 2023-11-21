@@ -9,6 +9,7 @@
 #include <cmath>
 #include <map>
 #include <fstream>
+#include "Classes.h"
 
 /**
  * @brief The Character class, contains all the information and variables that would be needed for a dnd character.
@@ -90,6 +91,8 @@ class Character{
      * @return std::string the name of the file
      */
         std::string save();
+
+
 
     private:
     /**
@@ -173,7 +176,12 @@ void verifyStat(int & stat);
  */
 std::vector<int> generate_stats();
 
-
+/**
+ * @brief loads a character from a file stream
+ * 
+ * @return pointer to character object.
+ */
+Character* load_Character( std::ifstream &fin );
 
 
 #endif

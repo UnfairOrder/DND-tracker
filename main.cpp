@@ -10,6 +10,7 @@
 
 using namespace std;
 const string SAVED_CHARACTERS_FILE = "saved_characters.txt";
+const int KEY_LEFT = 75, KEY_RIGHT=77, KEY_DOWN = 80, KEY_UP = 72;
 
 
 
@@ -124,7 +125,7 @@ Character* create_character(ostream& out){
         int index = 0;
         unsigned int cursor_delta = (stat_string.size())/stats.size();
         int c=0;
-        const int KEY_LEFT = 75, KEY_RIGHT=77;
+
         vector<string> stat_selection_indicators(6,"");
         string current_stat;
         vector<string> stat_indicators{"S","D","Co","W","I","Ch"};
@@ -292,6 +293,7 @@ Character* create_character(ostream& out){
  * 
  */
 void load_Characters(vector<Character*> &charList){
+    system("cls");
     //initialize variables
     vector<string> Character_selection_list;
 
@@ -309,7 +311,6 @@ void load_Characters(vector<Character*> &charList){
     
     while(!savedCharacters.eof()){
         savedCharacters>>Character_name;
-        cout<<Character_name<<endl;
         Character_selection_list.push_back(Character_name);
         Character_name = "";
     }
@@ -320,17 +321,20 @@ void load_Characters(vector<Character*> &charList){
     //      PRESENT CHARACTER OPTIONS TO USER
     const int selection_array_size = Character_selection_list.size();
     vector<char> selection_array(selection_array_size,' ');
-
     size_t cursor_index=0;
+    vector <int> load_indicies;
     char cursor = '>';
     bool selected = false;
     string input;
 
 
 
-
+    int c;
     while(!selected){
-        cout<<"Please select which Characters you would like to load in:"<<endl;
+        system("cls");
+        c=0;
+        cout<<"Load Characters"<<endl<<endl;
+        cout<<"Please select which Characters you would like to load in. Hit enter to select a character to load. Press spacebar when you are done"<<endl;
 
         //rewrite this every time an input is detected
             for(size_t i = 0; i<Character_selection_list.size(); i++){
@@ -338,11 +342,63 @@ void load_Characters(vector<Character*> &charList){
                 if(cursor_index==i){drawCursor=cursor;}
                 cout<<setw(5)<<drawCursor<<setw(2)<<selection_array[i]<<" "<<Character_selection_list[i]<<endl;
             }
-            //draw arrow in front of a character's name
-            cin>>input;
-            if (input=="done"){
-                selected = true;
+            //selector movement
+            c=_getch();
+            switch(c){
+                case KEY_UP:
+                    if (cursor_index>0){
+                        cursor_index--;
+                    }
+                    break;
+                case KEY_DOWN:
+                    if(cursor_index<Character_selection_list.size()-2){
+                        cursor_index++;
+                    }
+                    break;
+                case 13:
+                    if (selection_array[cursor_index]==' '){
+                        selection_array[cursor_index]='~';
+                    }else{
+                        selection_array[cursor_index]= ' ';
+                    }
+
+                    break;
+                case 32:
+                    selected = true;
+                    break;
+                default:
+                    break;
             }
+
+    //gather character indicies to load and confirm user choice
+        if (selected==true){
+            bool first = true;
+            cout<<"Would you like to load ";
+            for (size_t i = 0; i<selection_array.size(); i++){
+                if (selection_array[i]!=' '){
+                    if (first){
+                        cout<<Character_selection_list[i];
+                        first = false;
+                    }
+                    else{
+                        cout<<", "<<Character_selection_list[i];
+                    }
+                    load_indicies.push_back(i);
+                }
+            }
+            char choice;
+            cout<<"? (y/n)";
+            cin>>choice;
+            if (tolower(choice)!='y'){
+                selected = false;
+                load_indicies.clear();
+                break;
+            }
+            cout<<load_indicies.size();
+            
+        }
+                        
+
 
             //open file containing list of character save files
             //read list of character names and populate
@@ -350,6 +406,21 @@ void load_Characters(vector<Character*> &charList){
         //input data for Character into character constructor method
         //Add newly created characters to charList as pointers
     }
+
+    //      LOAD CHARACTERS
+        for (size_t i=0; i<load_indicies.size(); i++){
+            ifstream characterFile;
+            characterFile.open(Character_selection_list[load_indicies[i]]+".txt");
+
+            if(!characterFile){
+                cerr<<"failed to open character file for " << Character_selection_list[i]<<endl;
+                return;
+            }
+            //load character into memory
+            Character* character = load_Character(characterFile);
+            charList.push_back(character);
+
+        }
 
 
 }
@@ -360,20 +431,42 @@ void load_Characters(vector<Character*> &charList){
  * @param charList 
  */
 void save_Characters(vector<Character*> &charList){
-    ofstream saved_characters;
-    saved_characters.open(SAVED_CHARACTERS_FILE,std::ios::app);
-    if(!saved_characters){
-        cerr<<"failed to open saved characters file";
+    ifstream saved_characters_fstream_in;
+    saved_characters_fstream_in.open(SAVED_CHARACTERS_FILE);
+    if(!saved_characters_fstream_in){
+        cerr<<"failed to open saved characters file during repetition avoidance reading";
         return;
     }
 
-        string character_name;
-    for(size_t i=0; i<charList.size(); i++){
-        character_name = charList[i]->save();
-        saved_characters<<character_name<<'\n';
+    vector<string> pre_saved_characters;
+    string pre_saved_name;
+    while(!saved_characters_fstream_in.eof()){
+        saved_characters_fstream_in>>pre_saved_name;
+        pre_saved_characters.push_back(pre_saved_name);
+    }
+    saved_characters_fstream_in.close();
+
+    ofstream saved_characters_fstream;
+    saved_characters_fstream.open(SAVED_CHARACTERS_FILE,std::ios::app);
+    if(!saved_characters_fstream){
+        cerr<<"failed to open saved characters file during writing";
+        return;
     }
 
-    saved_characters.close();
+    string character_name;
+    bool add_to_file=true;
+    for(size_t i=0; i<charList.size(); i++){
+        add_to_file = true;
+        character_name = charList[i]->save();
+        for (size_t i=0; i<pre_saved_characters.size();i++){
+            if (character_name==pre_saved_characters[i]){
+                add_to_file=false;
+            }
+        }
+        if(add_to_file){saved_characters_fstream << character_name<<'\n';}
+    }
+
+    saved_characters_fstream.close();
 }
 
 
@@ -401,17 +494,18 @@ int main(){
     bool running = true;
 
     //Main Menu
-    int menu_options[]= {1,2,3};
-    int menu_size = 3;
+    int menu_options[]= {1,2,3,4};
+    int menu_size = 4;
 
     while(running){
         system("cls");  //clear console
 
         cout<<"DnD Tracker:indev"<<endl<<endl<<endl;
         cout<<"Main Menu:"<<endl<<endl;
-        cout<<"Load Characters: (not working yet)"<<menu_options[0]<<endl;
+        cout<<"Load Characters: "<<menu_options[0]<<endl;
         cout<<"Create new Character: "<<menu_options[1]<<endl;
-        cout<<"Quit: "<<menu_options[2]<<endl;
+        cout<<"View loaded Characters: "<<menu_options[2]<<endl;
+        cout<<"Quit: "<<menu_options[3]<<endl;
         bool valid=false;
 
         int option;
@@ -442,7 +536,17 @@ int main(){
                     cout<<"Saving Character to file"<<endl;
 
                     break;
+
                 case 3:
+                    cout<<"Loaded Characters: "<<endl<<endl;
+                    for (size_t i = 0; i<character_list.size();i++){
+                        cout<<'\t'<<character_list[i]->getName()<<endl;
+                    }
+                    int c;
+                    cout<<'\n'<<"Press any key to continue...";
+                    c = _getch();
+                    break;
+                case 4:
                     running = false;
                     break;
             }
