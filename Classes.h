@@ -8,6 +8,7 @@
 
 //PlayerClass definitions
 extern PlayerClass Bard;
+extern PlayerClass Barbarian;
 
 extern std::vector<PlayerClass> ClassList;
 
