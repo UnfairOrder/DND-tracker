@@ -16,7 +16,8 @@ class MeleeWeapon : public IWeapon{
             std::string _damage,
             double _weight); //non default constructor.
 
-    
+        void operator=(const MeleeWeapon& weapon);
+
         double get_weight()const override {return weight;}
         std::string get_name()const override {return name;}
         std::string get_description()const override{return description;}

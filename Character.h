@@ -10,6 +10,8 @@
 #include <map>
 #include <fstream>
 #include "Classes.h"
+#include "ItemList.h"
+#include "Inventory.h"
 
 /**
  * @brief The Character class, contains all the information and variables that would be needed for a dnd character.
@@ -30,6 +32,9 @@ class Character{
         
         std::string getName() const;
         void setName(std::string);
+
+        //Inventory
+        Inventory player_inventory;
 
         // at the moment, these are not going to scan the equipped items for bonuses from items.
         // setters only used at creation.
@@ -63,7 +68,6 @@ class Character{
         float get_height()const{return height;};
 
 
-        int get_current_hp()const;
         int get_level()const{return level;}
         void set_level(int level);
         int get_movespeed()const;
@@ -73,8 +77,31 @@ class Character{
         void setPlayerClass(PlayerClass c){character_class = c;}
         PlayerClass getPlayerClass(){return character_class;}
 
-        int get_max_hp()const{return max_hp;}
+        //  HP stuff
 
+        int get_max_hp()const{return max_hp;}
+        /**
+         * @brief Set the current hp object
+         * validates that the hp does not go over max, though it can go below zero.
+         * @param hp the hp to set
+         */
+        void set_current_hp(int hp);
+
+        int get_current_hp()const{return current_hp;}
+
+        /**
+         * @brief damages the character by reducing their hitpoints
+         * 
+         * @param damage 
+         */
+        void damage(int damage);
+
+        /**
+         * @brief heals the character by increasing their hitpoints, capping at their max hp.
+         * 
+         * @param healing 
+         */
+        void heal(int healing);
 
         //      PROFICIENCIES
 
@@ -117,6 +144,7 @@ class Character{
     int strength_mod, dex_mod, con_mod, wis_mod, int_mod, cha_mod;
     std::string race;   //This could be made an object, time permitting
     float height;   //in Inches
+    int current_hp;
 
 
     // pointer to player's class object. pointer allows for polymorphism.
@@ -137,7 +165,6 @@ class Character{
     std::vector<std::string> armor_prof;
 
     int max_hp;
-    int current_hp;
     int level;
     int move_speed;
     int armor_class;

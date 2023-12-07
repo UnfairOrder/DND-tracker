@@ -1,7 +1,7 @@
 # THE NAME OF YOUR EXECUTABLE
 TARGET = FinalProject
 # ALL CPP COMPILABLE IMPLEMENTATION FILES THAT MAKE UP THE PROJECT
-SRC_FILES = main.cpp Character.cpp PlayerClass.cpp DiceRoller.cpp Classes.cpp MeleeWeapon.cpp RangedWeapon.cpp
+SRC_FILES = main.cpp Character.cpp PlayerClass.cpp DiceRoller.cpp Classes.cpp MeleeWeapon.cpp RangedWeapon.cpp Inventory.cpp ItemList.cpp
 
 # NO EDITS NEEDED BELOW THIS LINE
 
@@ -75,7 +75,11 @@ depend:
 .PHONY: all clean depend
 
 # DEPENDENCIES 
-Character.o: Character.cpp Character.h PlayerClass.h DiceRoller.h
+main.o: main.cpp DiceRoller.h Classes.h PlayerClass.h ItemList.h \
+ MeleeWeapon.h IWeapon.h Item.h RangedWeapon.h Character.h Inventory.h
+Character.o: Character.cpp Character.h PlayerClass.h DiceRoller.h \
+ Classes.h ItemList.h MeleeWeapon.h IWeapon.h Item.h RangedWeapon.h \
+ Inventory.h
 PlayerClass.o: PlayerClass.cpp PlayerClass.h DiceRoller.h
 DiceRoller.o: DiceRoller.cpp DiceRoller.h
 Classes.o: Classes.cpp Classes.h PlayerClass.h DiceRoller.h

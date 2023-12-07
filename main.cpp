@@ -478,6 +478,8 @@ void save_Characters(vector<Character*> &charList){
 
 
 
+
+
 int main(){
     //Prep Random Values
     srand(time(0));
@@ -494,8 +496,8 @@ int main(){
     bool running = true;
 
     //Main Menu
-    int menu_options[]= {1,2,3,4};
-    int menu_size = 4;
+    int menu_options[]= {1,2,3,4,5};
+    int menu_size = 5;
 
     while(running){
         system("cls");  //clear console
@@ -505,7 +507,9 @@ int main(){
         cout<<"Load Characters: "<<menu_options[0]<<endl;
         cout<<"Create new Character: "<<menu_options[1]<<endl;
         cout<<"View loaded Characters: "<<menu_options[2]<<endl;
-        cout<<"Quit: "<<menu_options[3]<<endl;
+        cout<<"Enter game (not functional)"<<menu_options[3]<<endl;
+        cout<<"Quit: "<<menu_options[4]<<endl;
+
         bool valid=false;
 
         int option;
@@ -547,7 +551,12 @@ int main(){
                     c = _getch();
                     break;
                 case 4:
+                    //Run game
+                    break;
+                case 5:
                     running = false;
+                    break;
+                default:
                     break;
             }
             option = 0;

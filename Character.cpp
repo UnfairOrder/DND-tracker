@@ -15,6 +15,7 @@
     //TODO figure out if I'm using the right style guides
     character_class = _CharacterClass;
     set_max_hp(calculate_max_hp());
+    int current_hp = max_hp;
 
     //      CALCULATE PROFICIENCY BONUS
     set_prof_bonus(proficiency_bonus());
@@ -47,6 +48,10 @@
             skill_list[key] = skill_list[key] + prof_bonus;
         }
     }
+    //      Starter Items / Item list
+    player_inventory.insert(0,&dagger,1);
+    player_inventory.insert(1,&longbow,1);
+
 
 }
 Character::Character(std::string _name, std::string _race, float _height, std::vector<int> stat_vector, int _level, PlayerClass& _CharacterClass){
@@ -92,6 +97,8 @@ Character::Character(std::string _name, std::string _race, float _height, std::v
     skill_list["Performance"] = getCha_mod();
     skill_list["Persuasion"] = getCha_mod(); 
 
+    player_inventory.insert(0,&dagger,1);
+    player_inventory.insert(1,&longbow,1);
 }
 Character::Character(){
     //Initializes the Character as 'an average joe'
@@ -105,6 +112,8 @@ Character::Character(){
     int intelligence = 10;    
     level = 1;
     
+    player_inventory.insert(0,&dagger,1);
+    player_inventory.insert(1,&longbow,1);
 }
 
 Character::Character(const Character& player){
@@ -297,6 +306,28 @@ void Character::set_max_hp(int hp){
     else{
         max_hp=hp;
     }
+}
+
+void Character::set_current_hp(int hp){
+    if (hp>max_hp){
+        current_hp = max_hp;
+    }
+    else{
+        current_hp = hp;
+    }
+}
+
+void Character::damage(int damage){
+    if (damage<0){
+        set_current_hp(current_hp+damage);
+    }
+    else{
+        set_current_hp(current_hp-damage);
+    }
+}
+
+void Character::heal(int healing){
+    set_current_hp(current_hp+healing);
 }
 
 std::string Character::save(){

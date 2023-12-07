@@ -31,6 +31,13 @@
         weight = _weight;
         }
 
+void MeleeWeapon::operator=(const MeleeWeapon& w){
+        name = w.get_name();
+        description = w.get_description();
+        weapon_type = w.get_weapon_type();
+        damage = w.get_damage();
+        weight = w.get_weight();
+}
 
 std::ostream & operator<<(std::ostream &out, const MeleeWeapon&w){
     out<<w.get_name()<<":"<<std::endl;
